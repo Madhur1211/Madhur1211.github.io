@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Smoothie Order Form</title>
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  padding: 0;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f7f7f7;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+select, input[type="checkbox"], input[type="radio"] {
+  margin-right: 5px;
+}
+
+input[type="submit"] {
+  margin-top: 10px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+#smoothieDescription {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+  </style>
+</head>
+<body>
+  <h1>Customize Your Smoothie</h1>
+  <form id="smoothieOrderForm">
+    <label for="base">Select a Base:</label>
+    <select id="base" required>
+      <option value="milk">Milk</option>
+      <option value="yogurt">Yogurt</option>
+      <option value="fruit juice">Fruit Juice</option>
+      <option value="coconut water">Coconut Water</option>
+    </select>
+    <br>
+
+    <label for="fruits">Choose Fruits:</label>
+    <input type="checkbox" name="fruits" value="banana"> Banana
+    <input type="checkbox" name="fruits" value="strawberry"> Strawberry
+    <input type="checkbox" name="fruits" value="blueberry"> Blueberry
+    <input type="checkbox" name="fruits" value="mango"> Mango
+    <br>
+
+    <label for="sweetener">Add a Sweetener:</label>
+    <input type="radio" name="sweetener" value="honey"> Honey
+    <input type="radio" name="sweetener" value="maple syrup"> Maple Syrup
+    <input type="radio" name="sweetener" value="agave nectar"> Agave Nectar
+    <br>
+
+    <label for="toppings">Additional Toppings:</label>
+    <input type="checkbox" name="toppings" value="granola"> Granola
+    <input type="checkbox" name="toppings" value="chia seeds"> Chia Seeds
+    <input type="checkbox" name="toppings" value="coconut flakes"> Coconut Flakes
+    <br>
+
+    <input type="submit" value="Order">
+  </form>
+
+  <div id="smoothieDescription"></div>
+
+  <script>
+    // JavaScript code to capture form values and display smoothie description
+    document.getElementById("smoothieOrderForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      // Get selected values from the form
+      const base = document.getElementById("base").value;
+      const selectedFruits = Array.from(document.querySelectorAll("input[name='fruits']:checked")).map(checkbox => checkbox.value);
+      const sweetener = document.querySelector("input[name='sweetener']:checked")?.value || "None";
+      const selectedToppings = Array.from(document.querySelectorAll("input[name='toppings']:checked")).map(checkbox => checkbox.value);
+
+      // Create a Smoothie object
+      const smoothie = new Smoothie(base, selectedFruits, sweetener, selectedToppings);
+
+      // Display the smoothie description
+      const smoothieDescription = document.getElementById("smoothieDescription");
+      smoothieDescription.innerHTML = `
+        <h2>Your Smoothie</h2>
+        <p><b>Base:</b> ${smoothie.base}</p>
+        <p><b>Fruits:</b> ${smoothie.fruits.join(", ")}</p>
+        <p><b>Sweetener:</b> ${smoothie.sweetener}</p>
+        <p><b>Toppings:</b> ${smoothie.toppings.join(", ")}</p>
+      `;
+    });
+
+    // Smoothie class
+    class Smoothie {
+      constructor(base, fruits, sweetener, toppings) {
+        this.base = base;
+        this.fruits = fruits;
+        this.sweetener = sweetener;
+        this.toppings = toppings;
+      }
+    }
+  </script>
+</body>
+</html>
